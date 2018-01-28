@@ -1,3 +1,4 @@
+-r dev.txt
 -r flake8.txt
 
 coverage>=4.4
