@@ -1,6 +1,10 @@
 import os
 
 
+INSTALLED_APPS = [
+    'tests',
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
