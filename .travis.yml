@@ -1,0 +1,26 @@
+language: python
+
+python:
+  - '3.4'
+  - '3.5'
+  - '3.6'
+  - '3.7-dev'
+
+addons:
+  postgresql: '9.6'
+  apt:
+    packages:
+      - postgresql-9.6-postgis-2.3
+
+install:
+  - pip install tox tox-travis
+
+before_script:
+  - psql -U postgres -c 'CREATE DATABASE test;'
+
+script:
+  - tox
+
+after_success:
+  - pip install codecov
+  - codecov
