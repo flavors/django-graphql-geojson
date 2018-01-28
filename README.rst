@@ -86,5 +86,5 @@ Here we go!
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/flavors/django-graphql-geojson.svg
    :target: https://codecov.io/gh/flavors/django-graphql-geojson
 
-.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/.../maintainability
+.. |Code Climate| image:: https://api.codeclimate.com/v1/badges/67dbb917ad4cf8c422a6/maintainability
    :target: https://codeclimate.com/github/flavors/django-graphql-geojson
