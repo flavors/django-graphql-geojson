@@ -9,7 +9,7 @@ from graphql_geojson import types
 class TypesTests(TestCase):
 
     def test_geojson(self):
-        geometry = geos.Point(1, 0, srid=4326)
+        geometry = geos.Point(1, 0)
         geojson_type = types.GeoJSON()
         serialized = geojson_type.serialize(geometry)
 
@@ -26,8 +26,8 @@ class TypesTests(TestCase):
 
         # GeoJSON
         geojson_parsed = geojson_type.parse_value(serialized)
-        self.assertEqual(geojson_parsed, geometry)
+        self.assertEqual(geojson_parsed.geojson, geometry.geojson)
 
         # Hex
         hex_parsed = geojson_type.parse_value(geometry.hexewkb)
-        self.assertEqual(hex_parsed, geometry)
+        self.assertEqual(hex_parsed.geojson, geometry.geojson)
