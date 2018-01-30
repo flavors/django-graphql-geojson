@@ -8,7 +8,7 @@ from graphene_django.types import DjangoObjectType, DjangoObjectTypeOptions
 from graphql.language import ast
 
 
-class GeoJSON(graphene.Scalar):
+class GeoJSONInput(graphene.Scalar):
 
     @classmethod
     def serialize(cls, value):

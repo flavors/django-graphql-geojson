@@ -8,9 +8,9 @@ from graphql_geojson import types
 
 class TypesTests(TestCase):
 
-    def test_geojson(self):
+    def test_geojson_input(self):
         geometry = geos.Point(1, 0)
-        geojson_type = types.GeoJSON()
+        geojson_type = types.GeoJSONInput()
         serialized = geojson_type.serialize(geometry)
 
         self.assertEqual(geometry.geom_type, serialized['type'])
