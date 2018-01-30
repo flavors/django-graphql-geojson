@@ -1,7 +1,30 @@
+import json
 from collections import OrderedDict
+
+from django.contrib.gis.geos import GEOSGeometry
 
 import graphene
 from graphene_django.types import DjangoObjectType, DjangoObjectTypeOptions
+from graphql.language import ast
+
+
+class GeoJSON(graphene.Scalar):
+
+    @classmethod
+    def serialize(cls, value):
+        return json.loads(value.geojson)
+
+    @classmethod
+    def parse_literal(cls, node):
+        if isinstance(node, ast.StringValue):
+            return cls.parse_value(node.value)
+        return None
+
+    @classmethod
+    def parse_value(cls, value):
+        if isinstance(value, dict):
+            value = json.dumps(value)
+        return GEOSGeometry(value)
 
 
 class GeoJSONTypeOptions(DjangoObjectTypeOptions):
