@@ -2,6 +2,7 @@ from django.contrib.gis import geos
 from django.test import Client, RequestFactory, testcases
 
 import graphene
+from graphene.types.generic import GenericScalar
 
 from . import models
 
@@ -24,13 +25,14 @@ class GraphQLClient(GraphQLRequestFactory, Client):
 
 class GraphQLTestCase(testcases.TestCase):
     client_class = GraphQLClient
-    Query = None
+
+    class Query(graphene.ObjectType):
+        test = GenericScalar()
+
+    Mutations = None
 
     def setUp(self):
-        self.client.schema(query=self.Query)
-        self.place = models.Place.objects.create(
-            name='Somewhere',
-            location=geos.Point(0, 1))
+        self.client.schema(query=self.Query, mutation=self.Mutations)
 
     def assertGeoJSON(self, geometry_field, data):
         self.assertEqual(data['type'], 'Feature')
@@ -39,3 +41,12 @@ class GraphQLTestCase(testcases.TestCase):
         self.assertEqual(
             data['geometry']['coordinates'],
             list(geometry_field.coords))
+
+
+class GraphQLPlaceTestCase(GraphQLTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.place = models.Place.objects.create(
+            name='somewhere',
+            location=geos.Point(0, 1))

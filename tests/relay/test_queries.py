@@ -1,14 +1,15 @@
 import graphene
 from graphene_django.filter import DjangoFilterConnectionField
+from graphql_relay import to_global_id
 
-from . import schema
-from .testcases import GraphQLTestCase
+from ..testcases import GraphQLPlaceTestCase
+from . import nodes
 
 
-class QueriesTests(GraphQLTestCase):
+class QueriesTests(GraphQLPlaceTestCase):
 
-    class Query(schema.ResolveMixin, graphene.ObjectType):
-        places = DjangoFilterConnectionField(schema.PlaceNode)
+    class Query(graphene.ObjectType):
+        places = DjangoFilterConnectionField(nodes.PlaceNode)
 
     def test_places(self):
         query = '''
@@ -32,6 +33,8 @@ class QueriesTests(GraphQLTestCase):
 
         response = self.client.execute(query)
         data = response.data['places']['edges'][0]['node']
+        global_id = to_global_id(nodes.PlaceNode._meta.name, self.place.pk)
 
         self.assertGeoJSON(self.place.location, data)
+        self.assertEqual(global_id, data['id'])
         self.assertEqual(self.place.name, data['properties']['name'])

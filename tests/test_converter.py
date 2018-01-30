@@ -9,9 +9,9 @@ from graphql_geojson import converter
 
 class ConverterTests(TestCase):
 
-    def test_geojson_resolver(self):
+    def test_geometry_resolver(self):
         geometry = geos.Point(0, 1)
-        resolved = converter.geojson_resolver(
+        resolved = converter.geometry_resolver(
             attname='type',
             default_value=None,
             root=geometry,
@@ -19,9 +19,9 @@ class ConverterTests(TestCase):
 
         self.assertEqual(resolved, 'Point')
 
-    def test_geojson_default_resolver(self):
+    def test_geometry_default_resolver(self):
         geometry = geos.LineString((0, 0), (0, 1))
-        resolved = converter.geojson_resolver(
+        resolved = converter.geometry_resolver(
             attname='type',
             default_value=geometry,
             root=None,
@@ -32,4 +32,4 @@ class ConverterTests(TestCase):
     def test_convert_geometry(self):
         field = models.PointField()
         graphene_type = convert_django_field(field)
-        self.assertEqual(graphene_type.type.of_type, converter.GeoJSON)
+        self.assertEqual(graphene_type.type.of_type, converter.Geometry)
