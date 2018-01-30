@@ -76,7 +76,7 @@ GeoJSONType
 
 
 GeoJSONInput
------------
+------------
 
 ``schema.py``
 
