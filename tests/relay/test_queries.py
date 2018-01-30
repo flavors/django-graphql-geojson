@@ -2,8 +2,8 @@ import graphene
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_relay import to_global_id
 
-from ..testcases import GraphQLPlaceTestCase
 from . import nodes
+from ..testcases import GraphQLPlaceTestCase
 
 
 class QueriesTests(GraphQLPlaceTestCase):

@@ -4,9 +4,9 @@ import graphene
 
 from graphql_geojson.types import GeoJSON
 
+from . import nodes
 from .. import models
 from ..testcases import GraphQLTestCase
-from . import nodes
 
 
 class CreatePlace(graphene.ClientIDMutation):
