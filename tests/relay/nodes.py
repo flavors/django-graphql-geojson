@@ -2,14 +2,7 @@ from graphene import relay
 
 from graphql_geojson.types import GeoJSONType
 
-from . import models
-
-
-class PlaceType(GeoJSONType):
-
-    class Meta:
-        model = models.Place
-        geojson_field = 'location'
+from .. import models
 
 
 class PlaceNode(GeoJSONType):
@@ -19,9 +12,3 @@ class PlaceNode(GeoJSONType):
         interfaces = [relay.Node]
         geojson_field = 'location'
         filter_fields = ['name']
-
-
-class ResolveMixin(object):
-
-    def resolve_places(self, info, **kwargs):
-        return models.Place.objects.all()
