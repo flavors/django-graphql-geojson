@@ -29,6 +29,21 @@ Install last stable version from Pypi.
 GeoJSONType
 -----------
 
+``models.py``
+
+.. code:: python
+
+    from django.contrib.gis.db import models
+
+
+    class Place(models.Model):
+        name = models.CharField(max_length=255)
+        location = models.PointField()
+
+
+
+``schema.py``
+
 .. code:: python
 
     from graphql_geojson.types import GeoJSONType
@@ -41,7 +56,7 @@ GeoJSONType
             geojson_field = 'location'
 
 
-Here we go!
+**Query**
 
 .. code:: graphql
 
@@ -59,6 +74,69 @@ Here we go!
       }
     }
 
+
+GeoJSONInput
+-----------
+
+``schema.py``
+
+.. code:: python
+
+    import graphene
+
+    from graphql_geojson.types import GeoJSONInput
+
+
+    class CreatePlace(graphene.Mutation):
+        place = graphene.Field(types.PlaceType)
+
+        class Arguments:
+            name = graphene.String(required=True)
+            location = GeoJSONInput(required=True)
+
+        @classmethod
+        def mutate(cls, root, info, **args):
+            place = models.Place.objects.create(**args)
+            return cls(place=place)
+
+
+**Mutation**
+
+.. code:: graphql
+
+    mutation CreatePlace($name: String!, $location: GeoJSONInput!) {
+      createPlace(name: $name, location: $location) {
+        place {
+          id
+        }
+      }
+    }
+
+**GeoJSONInput** object may be initialized in a few ways:
+
+- Well-known text (WKT):
+
+.. code:: python
+
+    'POINT(5 23)'
+
+- Hexadecimal (HEX):
+
+.. code:: python
+
+    '010100000000000000000014400000000000003740'
+
+- GeoJSON:
+
+.. code:: python
+
+    {
+      "type": "Point",
+      "coordinates": [
+        5.000000,
+        23.000000
+      ]
+    }
 
 ----
 
