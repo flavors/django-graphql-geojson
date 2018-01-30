@@ -112,6 +112,8 @@ GeoJSONInput
       }
     }
 
+----
+
 **GeoJSONInput** object may be initialized in a few ways:
 
 - Well-known text (WKT):
