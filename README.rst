@@ -19,11 +19,17 @@ Dependencies
 Installation
 ------------
 
+Pending pull request
+
+.. code:: sh
+
+    pip install -I git+https://github.com/mongkok/graphene-django@default-meta#egg=graphene-django
+
 Install last stable version from Pypi.
 
 .. code:: sh
 
-    pip install django-graphql-geojson --process-dependency-links
+    pip install django-graphql-geojson
 
 
 GeoJSONType
@@ -151,7 +157,6 @@ GeoJSONInput
        <a href="https://github.com/flavors/django-graphql-geojson/issues/new"><img src="https://user-images.githubusercontent.com/5514990/35416955-36d33b32-0251-11e8-9dd8-4b8c92adae68.gif"></a>
     </p>
     </embed>
-
 
 
 .. |Pypi| image:: https://img.shields.io/pypi/v/django-graphql-geojson.svg
