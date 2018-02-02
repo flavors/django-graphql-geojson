@@ -31,11 +31,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Django>=1.11',
-        'graphene-django==2.0.0.geojson',
-    ],
-    dependency_links=[
-        'git+https://github.com/mongkok/graphene-django@default-meta'
-        '#egg=graphene-django-2.0.0.geojson',
+        'graphene-django>=2.0.0',
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
@@ -56,5 +52,6 @@ setup(
     zip_safe=False,
     tests_require=[
         'Django>=1.11',
+        'graphene-django>=2.0.0',
     ],
 )
