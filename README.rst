@@ -29,7 +29,7 @@ Install last stable version from Pypi.
 
 .. code:: sh
 
-    pip install django-graphql-geojson
+    pip install django-graphql-geojson==0.0.2.rc2
 
 
 GeoJSONType
