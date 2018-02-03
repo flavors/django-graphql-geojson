@@ -37,10 +37,11 @@ class GraphQLTestCase(testcases.TestCase):
     def assertGeoJSON(self, geometry_field, data):
         self.assertEqual(data['type'], 'Feature')
         self.assertEqual(data['geometry']['type'], geometry_field.geom_type)
+        self.assertSequenceEqual(data['bbox'], geometry_field.extent)
 
-        self.assertEqual(
+        self.assertSequenceEqual(
             data['geometry']['coordinates'],
-            list(geometry_field.coords))
+            geometry_field.coords)
 
 
 class GraphQLPlaceTestCase(GraphQLTestCase):

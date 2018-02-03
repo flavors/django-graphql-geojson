@@ -40,6 +40,7 @@ class MutationsTests(GraphQLTestCase):
                 type
                 coordinates
               }
+              bbox
               properties {
                 name
               }

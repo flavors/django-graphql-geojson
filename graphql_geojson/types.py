@@ -4,6 +4,7 @@ from collections import OrderedDict
 from django.contrib.gis.geos import GEOSGeometry
 
 import graphene
+from graphene.types.generic import GenericScalar
 from graphene_django.types import DjangoObjectType, DjangoObjectTypeOptions
 from graphql.language import ast
 
@@ -35,6 +36,10 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             geometry_field = value.pop(self.geojson_field)
             geometry_field.name = 'geometry'
 
+            bbox_field = graphene.Field(
+                GenericScalar,
+                default_value=self.geojson_field)
+
             primary_key = self.model._meta.pk.name
             primary_key_field = value.pop(primary_key, None)
 
@@ -43,11 +48,12 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             fields = [
                 ('type', graphene.Field(graphene.String)),
                 (self.geojson_field, geometry_field),
+                ('bbox', bbox_field),
                 ('properties', graphene.Field(Properties)),
             ]
 
             if primary_key_field is not None:
-                fields.insert(0, ('id', primary_key_field))
+                fields.insert(1, ('id', primary_key_field))
 
             value = OrderedDict(fields)
 
@@ -59,6 +65,8 @@ def feature_resolver(attname, default_value, root, info, **args):
         return 'Feature'
     elif info.field_name == 'geometry':
         return getattr(root, attname)
+    elif attname == 'bbox':
+        return list(getattr(root, default_value).extent)
     return root
 
 

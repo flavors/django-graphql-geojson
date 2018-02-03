@@ -74,6 +74,7 @@ GeoJSONType
           type
           coordinates
         }
+        bbox
         properties {
           name
         }

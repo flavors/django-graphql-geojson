@@ -22,6 +22,7 @@ class QueriesTests(GraphQLPlaceTestCase):
               type
               coordinates
             }
+            bbox
             properties {
               name
             }
