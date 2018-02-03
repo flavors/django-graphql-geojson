@@ -19,17 +19,17 @@ Dependencies
 Installation
 ------------
 
-Pending pull request
+Update Graphene Django package.
 
 .. code:: sh
 
-    pip install -I git+https://github.com/mongkok/graphene-django@default-meta#egg=graphene-django
+    pip install -U git+https://github.com/graphql-python/graphene-django.git@master
 
 Install last stable version from Pypi.
 
 .. code:: sh
 
-    pip install django-graphql-geojson==0.0.2.rc2
+    pip install django-graphql-geojson
 
 
 GeoJSONType
