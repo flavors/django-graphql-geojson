@@ -8,8 +8,17 @@ from graphene.types.generic import GenericScalar
 from graphene_django.types import DjangoObjectType, DjangoObjectTypeOptions
 from graphql.language import ast
 
+from . import resolver
 
-class GeoJSONInput(graphene.Scalar):
+
+__all__ = [
+    'Geometry',
+    'GeometryObjectType',
+    'GeoJSONType',
+]
+
+
+class Geometry(graphene.Scalar):
 
     @classmethod
     def serialize(cls, value):
@@ -26,6 +35,14 @@ class GeoJSONInput(graphene.Scalar):
         if isinstance(value, dict):
             value = json.dumps(value)
         return GEOSGeometry(value)
+
+
+class GeometryObjectType(graphene.ObjectType):
+    type = graphene.String()
+    coordinates = GenericScalar()
+
+    class Meta:
+        default_resolver = resolver.geometry_resolver
 
 
 class GeoJSONTypeOptions(DjangoObjectTypeOptions):
@@ -60,33 +77,23 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
         super().__setattr__(name, value)
 
 
-def feature_resolver(attname, default_value, root, info, **args):
-    if attname == 'type':
-        return 'Feature'
-    elif info.field_name == 'geometry':
-        return getattr(root, attname)
-    elif attname == 'bbox':
-        return list(getattr(root, default_value).extent)
-    return root
-
-
 class GeoJSONType(DjangoObjectType):
 
     class Meta:
         abstract = True
 
     @classmethod
-    def __init_subclass_with_meta__(cls, name=None, geojson_field=None,
-                                    default_resolver=None, **options):
+    def __init_subclass_with_meta__(cls, name=None, _meta=None,
+                                    geojson_field=None, **options):
 
         assert geojson_field is not None, (
             '`{}` should either include a `Meta.geojson_field`'
             ' attribute.'.format(name or cls.__name__)
         )
 
-        _meta = GeoJSONTypeOptions(cls)
-        _meta.geojson_field = geojson_field
+        if _meta is None:
+            _meta = GeoJSONTypeOptions(cls)
+            _meta.geojson_field = geojson_field
 
-        super().__init_subclass_with_meta__(
-            default_resolver=feature_resolver,
-            name=name, _meta=_meta, **options)
+        options.setdefault('default_resolver', resolver.feature_resolver)
+        super().__init_subclass_with_meta__(name=name, _meta=_meta, **options)
