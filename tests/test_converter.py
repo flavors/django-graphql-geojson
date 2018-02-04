@@ -4,14 +4,14 @@ from django.test import TestCase
 
 from graphene_django.converter import convert_django_field
 
-from graphql_geojson import converter
+from graphql_geojson import resolver, types
 
 
 class ConverterTests(TestCase):
 
     def test_geometry_resolver(self):
         geometry = geos.Point(0, 1)
-        resolved = converter.geometry_resolver(
+        resolved = resolver.geometry_resolver(
             attname='type',
             default_value=None,
             root=geometry,
@@ -21,7 +21,7 @@ class ConverterTests(TestCase):
 
     def test_geometry_default_resolver(self):
         geometry = geos.LineString((0, 0), (0, 1))
-        resolved = converter.geometry_resolver(
+        resolved = resolver.geometry_resolver(
             attname='type',
             default_value=geometry,
             root=None,
@@ -32,4 +32,5 @@ class ConverterTests(TestCase):
     def test_convert_geometry(self):
         field = models.PointField()
         graphene_type = convert_django_field(field)
-        self.assertEqual(graphene_type.type.of_type, converter.Geometry)
+
+        self.assertEqual(graphene_type.type.of_type, types.GeometryObjectType)

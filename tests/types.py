@@ -1,9 +1,9 @@
-from graphql_geojson.types import GeoJSONType
+import graphql_geojson
 
 from . import models
 
 
-class PlaceType(GeoJSONType):
+class PlaceType(graphql_geojson.GeoJSONType):
 
     class Meta:
         model = models.Place

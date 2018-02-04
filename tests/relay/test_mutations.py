@@ -1,8 +1,7 @@
 from django.contrib.gis import geos
 
 import graphene
-
-from graphql_geojson.types import GeoJSONInput
+import graphql_geojson
 
 from . import nodes
 from .. import models
@@ -14,7 +13,7 @@ class CreatePlace(graphene.ClientIDMutation):
 
     class Input:
         name = graphene.String(required=True)
-        location = GeoJSONInput(required=True)
+        location = graphql_geojson.Geometry(required=True)
 
     @classmethod
     def mutate_and_get_payload(cls, root, info,

@@ -1,8 +1,7 @@
 from django.contrib.gis import geos
 
 import graphene
-
-from graphql_geojson.types import GeoJSONInput
+import graphql_geojson
 
 from . import models, types
 from .testcases import GraphQLTestCase
@@ -13,7 +12,7 @@ class CreatePlace(graphene.Mutation):
 
     class Arguments:
         name = graphene.String(required=True)
-        location = GeoJSONInput(required=True)
+        location = graphql_geojson.Geometry(required=True)
 
     @classmethod
     def mutate(cls, root, info, **args):
@@ -28,7 +27,7 @@ class MutationsTests(GraphQLTestCase):
 
     def test_create_place(self):
         query = '''
-        mutation CreatePlace($name: String!, $location: GeoJSONInput!) {
+        mutation CreatePlace($name: String!, $location: Geometry!) {
           createPlace(name: $name, location: $location) {
             place {
               id
