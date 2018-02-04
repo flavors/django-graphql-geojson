@@ -185,7 +185,9 @@ GeometryFilterSet
 
 
     class Query(graphene.ObjectType):
-        places = DjangoFilterConnectionField(PlaceNode, filterset_class=PlaceFilter)
+        places = DjangoFilterConnectionField(
+            PlaceNode,
+            filterset_class=PlaceFilter)
 
 
 **Query**
