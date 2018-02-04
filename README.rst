@@ -52,10 +52,10 @@ GeoJSONType
 
 .. code:: python
 
-    from graphql_geojson.types import GeoJSONType
+    import graphql_geojson
 
 
-    class PlaceType(GeoJSONType):
+    class PlaceType(graphql_geojson.GeoJSONType):
 
         class Meta:
             model = models.Place
@@ -82,16 +82,15 @@ GeoJSONType
     }
 
 
-GeoJSONInput
-------------
+Geometry Type
+-------------
 
 ``schema.py``
 
 .. code:: python
 
     import graphene
-
-    from graphql_geojson.types import GeoJSONInput
+    import graphql_geojson
 
 
     class CreatePlace(graphene.Mutation):
@@ -99,7 +98,7 @@ GeoJSONInput
 
         class Arguments:
             name = graphene.String(required=True)
-            location = GeoJSONInput(required=True)
+            location = graphql_geojson.Geometry(required=True)
 
         @classmethod
         def mutate(cls, root, info, **args):
@@ -111,7 +110,7 @@ GeoJSONInput
 
 .. code:: graphql
 
-    mutation CreatePlace($name: String!, $location: GeoJSONInput!) {
+    mutation CreatePlace($name: String!, $location: Geometry!) {
       createPlace(name: $name, location: $location) {
         place {
           id
@@ -119,9 +118,8 @@ GeoJSONInput
       }
     }
 
-----
 
-**GeoJSONInput** object may be initialized in a few ways:
+**Geometry** type may be initialized in a few ways:
 
 - Well-known text (WKT):
 
@@ -146,6 +144,63 @@ GeoJSONInput
         23.000000
       ]
     }
+
+
+GeometryFilterSet
+-----------------
+
+``filters.py``
+
+.. code:: python
+
+    from graphql_geojson.filters import GeometryFilterSet
+
+
+    class PlaceFilter(GeometryFilterSet):
+
+        class Meta:
+            model = models.Place
+            fields = {
+                'name': ['exact'],
+                'location': ['exact', 'intersects'],
+            }
+
+
+``schema.py``
+
+.. code:: python
+
+    import graphene
+    import graphql_geojson
+    from graphene import relay
+    from graphene_django.filter import DjangoFilterConnectionField
+
+
+    class PlaceNode(graphql_geojson.GeoJSONType):
+
+        class Meta:
+            model = Place
+            interfaces = [relay.Node]
+            geojson_field = 'location'
+
+
+    class Query(graphene.ObjectType):
+        places = DjangoFilterConnectionField(PlaceNode, filterset_class=PlaceFilter)
+
+
+**Query**
+
+.. code:: graphql
+
+      query Places($geometry: Geometry!){
+        places(location_Intersects: $geometry) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
 
 ----
 
