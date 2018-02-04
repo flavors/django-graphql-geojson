@@ -1,8 +1,9 @@
 from django.contrib.gis import geos
 from django.test import TestCase
 
-import graphql_geojson
 from graphql.language import ast
+
+import graphql_geojson
 
 
 class TypesTests(TestCase):

@@ -1,6 +1,7 @@
 from django.contrib.gis import geos
 
 import graphene
+
 import graphql_geojson
 
 from . import models, types

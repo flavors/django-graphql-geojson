@@ -10,7 +10,6 @@ from graphql.language import ast
 
 from . import resolver
 
-
 __all__ = [
     'Geometry',
     'GeometryObjectType',

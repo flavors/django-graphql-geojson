@@ -1,5 +1,6 @@
-import graphql_geojson
 from graphene import relay
+
+import graphql_geojson
 
 from .. import models
 
