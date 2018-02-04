@@ -52,6 +52,7 @@ GeoJSONType
 
 .. code:: python
 
+    import graphene
     import graphql_geojson
 
 
@@ -60,6 +61,12 @@ GeoJSONType
         class Meta:
             model = models.Place
             geojson_field = 'location'
+
+
+    class Query(graphene.ObjectType):
+        places = graphene.List(PlaceType)
+
+    schema = graphene.Schema(query=Query)
 
 
 **Query**
@@ -125,13 +132,13 @@ Geometry Type
 
 .. code:: python
 
-    'POINT(5 23)'
+    "POINT(5 23)"
 
 - Hexadecimal (HEX):
 
 .. code:: python
 
-    '010100000000000000000014400000000000003740'
+    "010100000000000000000014400000000000003740"
 
 - GeoJSON:
 
@@ -139,10 +146,7 @@ Geometry Type
 
     {
       "type": "Point",
-      "coordinates": [
-        5.000000,
-        23.000000
-      ]
+      "coordinates": [5, 23]
     }
 
 
