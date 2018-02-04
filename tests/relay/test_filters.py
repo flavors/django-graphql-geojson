@@ -30,22 +30,3 @@ class FiltersTests(GraphQLPlaceTestCase):
         response = self.client.execute(query, geometry=line.geojson)
 
         self.assertTrue(response.data['places']['edges'])
-
-    def test_filter_distance(self):
-        query = '''
-        query Places($geometry: String!) {
-          places(location_Test: $geometry) {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }'''
-
-        line = geos.LineString((0, 0), (0, 2))
-        response = self.client.execute(query, geometry=line.geojson)
-        import pdb; pdb.set_trace()
-
-        # self.assertTrue(response.data['places']['edges'])
-
