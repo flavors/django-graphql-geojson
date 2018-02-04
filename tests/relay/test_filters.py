@@ -26,7 +26,7 @@ class FiltersTests(GraphQLPlaceTestCase):
           }
         }'''
 
-        line = geos.LineString((0, 0), (0, 2))
-        response = self.client.execute(query, geometry=line.geojson)
+        line = geos.LineString((0, 0), (0, 2), srid=4326)
+        response = self.client.execute(query, geometry=str(line))
 
         self.assertTrue(response.data['places']['edges'])
