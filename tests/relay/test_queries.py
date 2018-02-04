@@ -1,5 +1,5 @@
 import graphene
-from graphene_django.filter import DjangoFilterConnectionField
+from graphene_django.fields import DjangoConnectionField
 from graphql_relay import to_global_id
 
 from . import nodes
@@ -9,7 +9,7 @@ from ..testcases import GraphQLPlaceTestCase
 class QueriesTests(GraphQLPlaceTestCase):
 
     class Query(graphene.ObjectType):
-        places = DjangoFilterConnectionField(nodes.PlaceNode)
+        places = DjangoConnectionField(nodes.PlaceNode)
 
     def test_places(self):
         query = '''
