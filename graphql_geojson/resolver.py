@@ -10,8 +10,15 @@ def geometry_resolver(attname, default_value, root, info, **args):
 def feature_resolver(attname, default_value, root, info, **args):
     if attname == 'type':
         return 'Feature'
+
     elif info.field_name == 'geometry':
         return getattr(root, attname)
+
     elif attname == 'bbox':
-        return list(getattr(root, default_value).extent)
+        geometry = getattr(root, default_value)
+
+        if geometry is not None:
+            return geometry.extent
+        return None
+
     return root
