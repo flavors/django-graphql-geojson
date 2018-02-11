@@ -73,7 +73,7 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             ]
 
             if primary_key_field is not None:
-                fields.insert(1, ('id', primary_key_field))
+                fields.insert(1, (primary_key, primary_key_field))
 
             value = OrderedDict(fields)
 
