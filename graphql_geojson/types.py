@@ -44,6 +44,24 @@ class GeometryObjectType(graphene.ObjectType):
         default_resolver = resolver.geometry_resolver
 
 
+class OrderedFields(OrderedDict):
+
+    def update(self, other=None, **kwargs):
+        if other is not None:
+            global_id_field = other.pop('id', None)
+
+            if global_id_field is not None:
+                self['id'] = global_id_field
+
+            Properties = type('Properties', (
+                self['properties']._type,
+            ), other)
+
+            self['properties'] = graphene.Field(Properties)
+        else:
+            super().update(**kwargs)
+
+
 class GeoJSONTypeOptions(DjangoObjectTypeOptions):
     geojson_field = None
 
@@ -75,7 +93,7 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             if primary_key_field is not None:
                 fields.insert(1, (primary_key, primary_key_field))
 
-            value = OrderedDict(fields)
+            value = OrderedFields(fields)
 
         super().__setattr__(name, value)
 
