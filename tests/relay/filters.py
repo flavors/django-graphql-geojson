@@ -9,5 +9,5 @@ class PlaceFilter(GeometryFilterSet):
         model = models.Place
         fields = {
             'name': ['exact'],
-            'location': ['exact', 'intersects'],
+            'location': ['exact', 'intersects', 'distance_lte'],
         }

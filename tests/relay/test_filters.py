@@ -30,3 +30,24 @@ class FiltersTests(GraphQLPlaceTestCase):
         response = self.client.execute(query, geometry=str(line))
 
         self.assertTrue(response.data['places']['edges'])
+
+    def test_distance_filter(self):
+        query = '''
+        query Places($geometry: Geometry!) {
+          places(location_DistanceLte: {
+              unit: km,
+              value: 100,
+              geometry: $geometry
+            }) {
+            edges {
+              node {
+                id
+              }
+            }
+          }
+        }'''
+
+        line = geos.LineString((0, 0), (1, 1), srid=4326)
+        response = self.client.execute(query, geometry=str(line))
+
+        self.assertTrue(response.data['places']['edges'])
