@@ -49,9 +49,13 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
 
     def __setattr__(self, name, value):
         if name == 'fields':
-            geometry_field = value.pop(self.geojson_field)
-            geometry_field.name = 'geometry'
+            geometry_field = value.pop(self.geojson_field, None)
 
+            assert geometry_field is not None, (
+                'Unrecognized field `{}`'.format(self.geojson_field)
+            )
+
+            geometry_field.name = 'geometry'
             bbox_field = graphene.Field(
                 GenericScalar,
                 default_value=self.geojson_field)
