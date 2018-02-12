@@ -27,6 +27,6 @@ class GeometryFilterSet(django_filters.FilterSet):
 
     @classmethod
     def filter_for_lookup(cls, field, lookup_type):
-        if lookup_type.startswith('distance'):
+        if lookup_type.startswith('distance') or lookup_type == 'dwithin':
             return DistanceFilter, {}
         return super().filter_for_lookup(field, lookup_type)
