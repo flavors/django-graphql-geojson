@@ -35,7 +35,12 @@ Install last stable version from Pypi.
 GeoJSONType
 -----------
 
-``models.py``
+``GeoJSONType`` is a subclass of ``DjangoObjectType`` which provides GraphQL fields in **GeoJSON** format.
+
+Just define a ``Meta.geojson_field`` to be represented as a ``Geometry`` type.
+
+
+**models.py**
 
 .. code:: python
 
@@ -47,8 +52,7 @@ GeoJSONType
         location = models.PointField()
 
 
-
-``schema.py``
+**schema.py**
 
 .. code:: python
 
@@ -65,6 +69,7 @@ GeoJSONType
 
     class Query(graphene.ObjectType):
         places = graphene.List(PlaceType)
+
 
     schema = graphene.Schema(query=Query)
 
@@ -92,7 +97,11 @@ GeoJSONType
 Geometry Type
 -------------
 
-``schema.py``
+``Geometry`` is a special GraphQL type that represents a `GEOS geometry object`_.
+
+.. _GEOS geometry object: https://docs.djangoproject.com/en/2.0/ref/contrib/gis/geos/#geometry-objects
+
+**schema.py**
 
 .. code:: python
 
@@ -126,7 +135,7 @@ Geometry Type
     }
 
 
-**Geometry** type may be initialized in a few ways:
+``Geometry`` type may be initialized in a few ways:
 
 - Well-known text (WKT):
 
@@ -153,7 +162,13 @@ Geometry Type
 GeometryFilterSet
 -----------------
 
-``filters.py``
+Django GraphQL GeoJSON provides a custom FilterSet for `spatial lookups`_.
+
+.. _spatial lookups: https://docs.djangoproject.com/en/2.0/ref/contrib/gis/geoquerysets/#spatial-lookups
+
+The ``Meta.fields`` option is combined with model to automatically generate filters. 
+
+**filters.py**
 
 .. code:: python
 
@@ -166,11 +181,11 @@ GeometryFilterSet
             model = models.Place
             fields = {
                 'name': ['exact'],
-                'location': ['exact', 'intersects'],
+                'location': ['exact', 'intersects', 'distance_lte'],
             }
 
 
-``schema.py``
+**schema.py**
 
 .. code:: python
 
@@ -200,6 +215,36 @@ GeometryFilterSet
 
       query Places($geometry: Geometry!){
         places(location_Intersects: $geometry) {
+          edges {
+            node {
+              id
+            }
+          }
+        }
+      }
+
+
+`Distance lookups`_ take a ``Distance`` parameter comprising:
+
+- The desired `unit attribute`_ name 
+- Distance value
+- A geometry to base calculations from
+
+.. _Distance lookups: https://docs.djangoproject.com/en/2.0/ref/contrib/gis/db-api/#distance-lookups
+.. _unit attribute: https://docs.djangoproject.com/en/2.0/ref/contrib/gis/measure/#supported-units
+
+.. code:: graphql
+
+      query Places(
+          $unit: DistanceUnitEnum!,
+          $value: Float!,
+          $geometry: Geometry!)
+        {
+        places(location_DistanceLte: {
+            unit: $unit,
+            value: $value,
+            geometry: $geometry
+          }) {
           edges {
             node {
               id
