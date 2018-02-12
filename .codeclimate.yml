@@ -2,6 +2,8 @@
 engines:
   duplication:
     enabled: true
+    exclude_paths:
+    - "graphql_geojson/converter.py"
     config:
       languages:
       - python
