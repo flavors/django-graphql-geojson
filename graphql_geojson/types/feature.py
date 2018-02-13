@@ -46,6 +46,11 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             primary_key = self.model._meta.pk.name
             primary_key_field = value.pop(primary_key, None)
 
+            value.update({
+                key: attr for key, attr in self.class_type.__dict__.items()
+                if key.startswith('resolve') and callable(attr)
+            })
+
             Properties = type('Properties', (graphene.ObjectType,), value)
 
             fields = [
