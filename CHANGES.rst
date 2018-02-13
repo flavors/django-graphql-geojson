@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+0.1.0
+-----
+
+Changes:
+ - Added distance filters
+ - Added filter fields support for GeoJSONTpe
+ - Added Properties resolve methods
+ - Fixed bbox resolver for null fields
+
+
 0.0.3
 -----
 
