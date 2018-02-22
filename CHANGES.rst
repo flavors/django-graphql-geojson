@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+0.1.1
+-----
+
+Changes:
+ - Allowed multiple geojson models
+
+
 0.1.0
 -----
 
