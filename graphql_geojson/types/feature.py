@@ -18,9 +18,9 @@ class OrderedFields(OrderedDict):
             if global_id_field is not None:
                 self['id'] = global_id_field
 
-            Properties = type('Properties', (
-                self['properties']._type,
-            ), other)
+            properties_type = self['properties']._type
+            Properties = type(properties_type.__name__, (
+                properties_type,), other)
 
             self['properties'] = graphene.Field(Properties)
         else:
@@ -51,7 +51,8 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
                 if key.startswith('resolve') and callable(attr)
             })
 
-            Properties = type('Properties', (graphene.ObjectType,), value)
+            Properties = type('{}Properties'.format(self.model.__name__), (
+                graphene.ObjectType,), value)
 
             fields = [
                 ('type', graphene.Field(graphene.String)),
