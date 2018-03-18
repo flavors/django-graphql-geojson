@@ -2,6 +2,13 @@ Changelog
 =========
 
 
+0.1.2
+-----
+
+Changes:
+ - Added Graphene FILTER_DEFAULTS to GeometryFilterSet
+
+
 0.1.1
 -----
 
