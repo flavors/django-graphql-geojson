@@ -2,6 +2,7 @@ from django.contrib.gis import forms
 from django.contrib.gis.db import models
 
 import django_filters
+from graphene_django.filter.filterset import GrapheneFilterSetMixin
 
 from . import fields
 
@@ -14,7 +15,7 @@ class DistanceFilter(django_filters.Filter):
     field_class = fields.DistanceField
 
 
-FILTER_DEFAULTS = django_filters.FilterSet.FILTER_DEFAULTS
+FILTER_DEFAULTS = GrapheneFilterSetMixin.FILTER_DEFAULTS
 FILTER_DEFAULTS.update({
     models.GeometryField: {
         'filter_class': GeometryFilter,
