@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 
 from django.contrib.gis import geos
 from django.test import TestCase
@@ -35,6 +35,6 @@ class ResolverTests(TestCase):
             attname='bbox',
             default_value='location',
             root=Place(),
-            info=MagicMock())
+            info=Mock())
 
         self.assertIsNone(resolved)
