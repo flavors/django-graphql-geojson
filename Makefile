@@ -15,8 +15,7 @@ coverage:
 		--cov graphql_geojson\
 		--cov-config .coveragerc\
 		--cov-report term\
-		--cov-report xml\
-		tests
+		--cov-report xml
 
 test-all:
 	@tox
