@@ -16,3 +16,11 @@ class Distance(graphene.InputObjectType):
     unit = DistanceUnitEnum(required=True)
     value = graphene.Float(required=True)
     geometry = Geometry(required=True)
+
+    class Meta:
+        description = """
+Distance object type comprising:
+- The desired `unit` attribute name
+- Distance `value`
+- A `geometry` to base calculations from
+"""

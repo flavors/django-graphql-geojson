@@ -16,6 +16,14 @@ __all__ = [
 
 class Geometry(graphene.Scalar):
 
+    class Meta:
+        description = """
+`Geometry` scalar may be represented in a few ways:
+- Well-known text (WKT)
+- Hexadecimal (HEX)
+- GeoJSON
+"""
+
     @classmethod
     def serialize(cls, value):
         return json.loads(value.geojson)
@@ -39,3 +47,8 @@ class GeometryObjectType(graphene.ObjectType):
 
     class Meta:
         default_resolver = resolver.geometry_resolver
+        description = """
+`GeometryObjectType` represents a pair of values:
+- Geometry `type`
+- Geometry `coordinates`
+"""
