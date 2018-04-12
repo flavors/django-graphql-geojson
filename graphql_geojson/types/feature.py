@@ -1,3 +1,4 @@
+import inspect
 from collections import OrderedDict
 
 import graphene
@@ -46,10 +47,13 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             primary_key = self.model._meta.pk.name
             primary_key_field = value.pop(primary_key, None)
 
-            value.update({
-                key: attr for key, attr in self.class_type.__dict__.items()
-                if key.startswith('resolve') and callable(attr)
-            })
+            methods = inspect.getmembers(
+                self.class_type(),
+                predicate=inspect.ismethod)
+
+            for method_name, method in methods:
+                if method_name.startswith('resolve'):
+                    value[method_name] = method.__func__
 
             Properties = type('{}Properties'.format(self.model.__name__), (
                 graphene.ObjectType,), value)
