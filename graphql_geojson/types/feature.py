@@ -46,23 +46,13 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
 
             primary_key = self.model._meta.pk.name
             primary_key_field = value.pop(primary_key, None)
-
-            methods = inspect.getmembers(
-                self.class_type(),
-                predicate=inspect.ismethod)
-
-            for method_name, method in methods:
-                if method_name.startswith('resolve'):
-                    value[method_name] = method.__func__
-
-            Properties = type('{}Properties'.format(self.model.__name__), (
-                graphene.ObjectType,), value)
+            properties = self.get_properties(value)
 
             fields = [
                 ('type', graphene.Field(graphene.String)),
                 (self.geojson_field, geometry_field),
                 ('bbox', bbox_field),
-                ('properties', graphene.Field(Properties)),
+                ('properties', graphene.Field(properties)),
             ]
 
             if primary_key_field is not None:
@@ -71,6 +61,18 @@ class GeoJSONTypeOptions(DjangoObjectTypeOptions):
             value = OrderedFields(fields)
 
         super().__setattr__(name, value)
+
+    def get_properties(self, value):
+        methods = inspect.getmembers(
+            self.class_type(),
+            predicate=inspect.ismethod)
+
+        for method_name, method in methods:
+            if method_name.startswith('resolve'):
+                value[method_name] = method.__func__
+
+        class_name = '{}Properties'.format(self.model.__name__)
+        return type(class_name, (graphene.ObjectType,), value)
 
 
 class GeoJSONType(DjangoObjectType):
