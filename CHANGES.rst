@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.1.3
+-----
+
+* Added descriptions
+* Fixed resolvers in inheritance
+
+
 0.1.2
 -----
 
