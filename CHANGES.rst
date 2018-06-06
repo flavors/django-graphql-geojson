@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.1.4
+-----
+
+* Upgraded graphene-django requirement to v2.1rc0
+
 0.1.3
 -----
 
