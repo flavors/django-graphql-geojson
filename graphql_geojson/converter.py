@@ -3,7 +3,7 @@ from django.contrib.gis.db import models
 
 import graphene
 from graphene_django.converter import convert_django_field
-from graphene_django.form_converter import convert_form_field
+from graphene_django.forms.converter import convert_form_field
 
 from . import fields, types
 

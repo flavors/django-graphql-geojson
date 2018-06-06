@@ -31,6 +31,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     install_requires=[
         'Django>=1.11',
+        'graphene-django>=2.1rc0',
     ],
     classifiers=[
         'Development Status :: 1 - Planning',
@@ -51,6 +52,6 @@ setup(
     zip_safe=False,
     tests_require=[
         'Django>=1.11',
-        'graphene-django>=2.0.0',
+        'graphene-django>=2.1rc0',
     ],
 )

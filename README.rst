@@ -19,12 +19,6 @@ Dependencies
 Installation
 ------------
 
-Update Graphene Django package.
-
-.. code:: sh
-
-    pip install -U git+https://github.com/graphql-python/graphene-django.git@master
-
 Install last stable version from Pypi.
 
 .. code:: sh
