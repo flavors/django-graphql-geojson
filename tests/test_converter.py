@@ -6,7 +6,7 @@ from graphene_django.converter import convert_django_field
 from graphql_geojson import types
 
 
-class ConverterTests(TestCase):
+class FieldToGeometryTests(TestCase):
 
     def test_convert_geometry(self):
         field = models.PointField()

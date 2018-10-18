@@ -8,9 +8,9 @@ from graphql_geojson import resolver
 from .models import Place
 
 
-class ResolverTests(TestCase):
+class GeometryResolverTests(TestCase):
 
-    def test_geometry_resolver(self):
+    def test_resolver(self):
         geometry = geos.Point(0, 1)
         resolved = resolver.geometry_resolver(
             attname='type',
@@ -20,7 +20,7 @@ class ResolverTests(TestCase):
 
         self.assertEqual(resolved, 'Point')
 
-    def test_geometry_default_resolver(self):
+    def test_default_resolver(self):
         geometry = geos.LineString((0, 0), (0, 1))
         resolved = resolver.geometry_resolver(
             attname='type',
@@ -30,7 +30,10 @@ class ResolverTests(TestCase):
 
         self.assertEqual(resolved, 'LineString')
 
-    def test_feature_bbox_resolver_null_geometry(self):
+
+class FeatureResolverTests(TestCase):
+
+    def test_bbox_resolver_null_geometry(self):
         resolved = resolver.feature_resolver(
             attname='bbox',
             default_value='location',

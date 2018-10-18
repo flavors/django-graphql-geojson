@@ -7,7 +7,7 @@ from graphql_geojson.types import feature as types
 from .. import models
 
 
-class FeatureTypeTests(TestCase):
+class OrderedFieldsTests(TestCase):
 
     def test_update_ordered_fields(self):
         ordered_fields = types.OrderedFields()
@@ -15,7 +15,10 @@ class FeatureTypeTests(TestCase):
 
         self.assertTrue(ordered_fields['test'])
 
-    def test_geojson_type_custom_meta(self):
+
+class GeoJSONTypeTests(TestCase):
+
+    def test_custom_meta(self):
 
         class GeoJSONType(types.GeoJSONType):
 
@@ -35,7 +38,7 @@ class FeatureTypeTests(TestCase):
 
         self.assertIsInstance(PlaceType._meta, DjangoObjectTypeOptions)
 
-    def test_geojson_type_options_missing_pk(self):
+    def test_options_missing_pk(self):
 
         class PlaceType(types.GeoJSONType):
 
