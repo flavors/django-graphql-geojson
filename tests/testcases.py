@@ -10,7 +10,7 @@ from . import models
 class SchemaRequestFactory(RequestFactory):
 
     def execute(self, query, **variables):
-        return self._schema.execute(query, variable_values=variables)
+        return self._schema.execute(query, variables=variables)
 
 
 class SchemaClient(SchemaRequestFactory, Client):
