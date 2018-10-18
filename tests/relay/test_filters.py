@@ -4,10 +4,10 @@ import graphene
 from graphene_django.filter import DjangoFilterConnectionField
 
 from . import filters, nodes
-from ..testcases import GraphQLPlaceTestCase
+from ..testcases import PlacesSchemaTestCase
 
 
-class FiltersTests(GraphQLPlaceTestCase):
+class FiltersTests(PlacesSchemaTestCase):
 
     class Query(graphene.ObjectType):
         places = DjangoFilterConnectionField(

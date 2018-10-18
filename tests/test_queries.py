@@ -1,10 +1,10 @@
 import graphene
 
 from . import models, types
-from .testcases import GraphQLPlaceTestCase
+from .testcases import PlacesSchemaTestCase
 
 
-class QueriesTests(GraphQLPlaceTestCase):
+class QueriesTests(PlacesSchemaTestCase):
 
     class Query(graphene.ObjectType):
         places = graphene.List(types.PlaceType)

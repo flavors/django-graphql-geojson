@@ -3,10 +3,10 @@ from graphene_django.fields import DjangoConnectionField
 from graphql_relay import to_global_id
 
 from . import nodes
-from ..testcases import GraphQLPlaceTestCase
+from ..testcases import PlacesSchemaTestCase
 
 
-class QueriesTests(GraphQLPlaceTestCase):
+class QueriesTests(PlacesSchemaTestCase):
 
     class Query(graphene.ObjectType):
         places = DjangoConnectionField(nodes.PlaceNode)

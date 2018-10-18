@@ -5,7 +5,7 @@ import graphene
 import graphql_geojson
 
 from . import models, types
-from .testcases import GraphQLTestCase
+from .testcases import SchemaTestCase
 
 
 class CreatePlace(graphene.Mutation):
@@ -21,7 +21,7 @@ class CreatePlace(graphene.Mutation):
         return cls(place=place)
 
 
-class MutationsTests(GraphQLTestCase):
+class MutationsTests(SchemaTestCase):
 
     class Mutations(graphene.ObjectType):
         create_place = CreatePlace.Field()

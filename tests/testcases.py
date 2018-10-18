@@ -7,13 +7,13 @@ from graphene.types.generic import GenericScalar
 from . import models
 
 
-class GraphQLRequestFactory(RequestFactory):
+class SchemaRequestFactory(RequestFactory):
 
     def execute(self, query, **variables):
         return self._schema.execute(query, variable_values=variables)
 
 
-class GraphQLClient(GraphQLRequestFactory, Client):
+class SchemaClient(SchemaRequestFactory, Client):
 
     def __init__(self, **defaults):
         super().__init__(**defaults)
@@ -23,8 +23,8 @@ class GraphQLClient(GraphQLRequestFactory, Client):
         self._schema = graphene.Schema(**kwargs)
 
 
-class GraphQLTestCase(testcases.TestCase):
-    client_class = GraphQLClient
+class SchemaTestCase(testcases.TestCase):
+    client_class = SchemaClient
 
     class Query(graphene.ObjectType):
         test = GenericScalar()
@@ -44,7 +44,7 @@ class GraphQLTestCase(testcases.TestCase):
             geometry_field.coords)
 
 
-class GraphQLPlaceTestCase(GraphQLTestCase):
+class PlacesSchemaTestCase(SchemaTestCase):
 
     def setUp(self):
         super().setUp()
