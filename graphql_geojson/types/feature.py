@@ -94,4 +94,4 @@ class GeoJSONType(DjangoObjectType):
             _meta.geojson_field = geojson_field
 
         options.setdefault('default_resolver', resolver.feature_resolver)
-        super().__init_subclass_with_meta__(name=name, _meta=_meta,  **options)
+        super().__init_subclass_with_meta__(name=name, _meta=_meta, **options)
