@@ -2,7 +2,6 @@ from django.contrib.gis import geos
 from django.test import Client, RequestFactory, testcases
 
 import graphene
-from graphene.types.generic import GenericScalar
 
 from . import models
 
@@ -25,14 +24,10 @@ class SchemaClient(SchemaRequestFactory, Client):
 
 class SchemaTestCase(testcases.TestCase):
     client_class = SchemaClient
-
-    class Query(graphene.ObjectType):
-        test = GenericScalar()
-
     Mutations = None
 
     def setUp(self):
-        self.client.schema(query=self.Query, mutation=self.Mutations)
+        self.client.schema(mutation=self.Mutations)
 
     def assertGeoJSON(self, geometry_field, data):
         self.assertEqual(data['type'], 'Feature')
