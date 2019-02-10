@@ -25,34 +25,35 @@ class CreatePlace(graphene.ClientIDMutation):
 
 
 class MutationsTests(SchemaTestCase):
+    query = '''
+    mutation CreatePlace($input: CreatePlaceInput!) {
+      createPlace(input: $input) {
+        place {
+          id
+          type
+          geometry {
+            type
+            coordinates
+          }
+          bbox
+          properties {
+            name
+          }
+        }
+        clientMutationId
+      }
+    }'''
 
     class Mutations(graphene.ObjectType):
         create_place = CreatePlace.Field()
 
     def test_create_place(self):
-        query = '''
-        mutation CreatePlace($input: CreatePlaceInput!) {
-          createPlace(input: $input) {
-            place {
-              id
-              type
-              geometry {
-                type
-                coordinates
-              }
-              bbox
-              properties {
-                name
-              }
-            }
-            clientMutationId
-          }
-        }'''
-
         geometry = geos.Point(1, 0)
-        response = self.client.execute(query, input={
-            'name': 'test',
-            'location': str(geometry),
+        response = self.execute({
+            'input': {
+                'name': 'test',
+                'location': str(geometry),
+            },
         })
 
         data = response.data['createPlace']['place']
