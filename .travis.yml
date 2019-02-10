@@ -2,6 +2,12 @@ dist: xenial
 language: python
 cache: pip
 
+addons:
+  postgresql: 10
+  apt:
+    packages:
+      - postgresql-10-postgis-2.4
+
 matrix:
   fast_finish: true
   include:
@@ -52,6 +58,9 @@ matrix:
 
 install:
   - pip install tox
+
+before_script:
+  - psql -U postgres -c 'CREATE DATABASE test;'
 
 script:
   - tox
